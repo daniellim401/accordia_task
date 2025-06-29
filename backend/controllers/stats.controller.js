@@ -13,13 +13,6 @@ export const getAdminStats = async (req, res) => {
     
     // Get total chats
     const totalChats = await Chat.countDocuments();
-    
-    // Get average rating
-    const ratingAgg = await Chat.aggregate([
-      { $match: { rating: { $ne: null } } },
-      { $group: { _id: null, avgRating: { $avg: '$rating' } } }
-    ]);
-    const avgRating = ratingAgg.length > 0 ? ratingAgg[0].avgRating : 0;
 
     // Get chat status counts
     const pendingChats = await Chat.countDocuments({ status: 'pending' });
@@ -36,7 +29,6 @@ export const getAdminStats = async (req, res) => {
       totalAgents,
       totalUsers,
       totalChats,
-      avgRating,
       pendingChats,
       activeChats,
       endedChats,
@@ -76,13 +68,6 @@ export const getAgentStats = async (req, res) => {
       agent: req.user._id
     });
 
-    // Get my average rating
-    const myRatingAgg = await Chat.aggregate([
-      { $match: { agent: req.user._id, rating: { $ne: null } } },
-      { $group: { _id: null, avgRating: { $avg: '$rating' } } }
-    ]);
-    const myAvgRating = myRatingAgg.length > 0 ? myRatingAgg[0].avgRating : 0;
-
     // Get pending chats in queue
     const pendingChats = await Chat.countDocuments({ status: 'pending' });
 
@@ -90,7 +75,6 @@ export const getAgentStats = async (req, res) => {
       myChatsToday,
       myActiveChats,
       myTotalChats,
-      myAvgRating,
       pendingChats
     });
   } catch (error) {
@@ -143,19 +127,11 @@ export const getUserStats = async (req, res) => {
       status: 'ended'
     });
 
-    // Get user's average rating given
-    const myRatingAgg = await Chat.aggregate([
-      { $match: { customer: req.user._id, rating: { $ne: null } } },
-      { $group: { _id: null, avgRating: { $avg: '$rating' } } }
-    ]);
-    const myAvgRating = myRatingAgg.length > 0 ? myRatingAgg[0].avgRating : 0;
-
     res.json({
       myTotalChats,
       myActiveChats,
       myPendingChats,
       myEndedChats,
-      myAvgRating
     });
   } catch (error) {
     console.error('Error fetching user stats:', error);
