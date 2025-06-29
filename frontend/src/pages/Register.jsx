@@ -8,7 +8,7 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'agent'
+    role: 'user'
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -57,10 +57,6 @@ const Register = () => {
     setLoading(false);
   };
 
-  const roles = [
-    { value: 'agent', label: 'Agent', icon: '👤', description: 'Contact center agent' },
-    { value: 'supervisor', label: 'Supervisor', icon: '👥', description: 'Team supervisor' },
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -133,39 +129,6 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                 />
-              </div>
-
-              <div className="group">
-                <label htmlFor="role" className="block text-sm font-medium text-white/90 mb-2">
-                  Role
-                </label>
-                <div className="grid grid-cols-1 gap-2">
-                  {roles.map((role) => (
-                    <label key={role.value} className="relative">
-                      <input
-                        type="radio"
-                        name="role"
-                        value={role.value}
-                        checked={formData.role === role.value}
-                        onChange={handleChange}
-                        className="sr-only"
-                      />
-                      <div className={`p-3 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-                        formData.role === role.value
-                          ? 'border-emerald-400 bg-emerald-500/20'
-                          : 'border-white/20 bg-white/5 hover:bg-white/10'
-                      }`}>
-                        <div className="flex items-center">
-                          <span className="text-lg mr-3">{role.icon}</span>
-                          <div>
-                            <div className="text-white font-medium">{role.label}</div>
-                            <div className="text-white/60 text-xs">{role.description}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </label>
-                  ))}
-                </div>
               </div>
               
               <div className="group">
