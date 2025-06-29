@@ -33,7 +33,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api', statsRoutes);
+app.use('/api/stats', statsRoutes);
 app.use('/api/chat', chatRoutes);
 
 const PORT = process.env.PORT || 5001;

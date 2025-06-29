@@ -1,4 +1,3 @@
-// socket.js - Separate Socket.IO handler
 import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import User from './models/user.model.js';
@@ -12,8 +11,12 @@ const connectedUsers = new Map();
 export const initializeSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: process.env.CLIENT_URL || "http://localhost:5001",
-      methods: ["GET", "POST"]
+      origin: [
+        "http://localhost:5173", // Vite default
+        process.env.CLIENT_URL
+      ].filter(Boolean), 
+      methods: ["GET", "POST"],
+      credentials: true
     }
   });
 
@@ -122,10 +125,10 @@ export const initializeSocket = (server) => {
         }
 
         const Chat = (await import('./models/chat.model.js')).default;
-        const chat = await Chat.findById(chatId);
+        const chat = await Chat.findById(chatId).populate('customer', 'username email');
         
         if (!chat || chat.status !== 'pending') {
-          return socket.emit('error', { message: 'Chat not available' });
+          return socket.emit('error', { message: 'Chat not available or already taken' });
         }
 
         // Update chat
@@ -137,7 +140,7 @@ export const initializeSocket = (server) => {
         // Join agent to chat room
         socket.join(`chat_${chatId}`);
 
-        // Notify customer
+        // Notify customer that agent joined
         socket.to(`chat_${chatId}`).emit('chatAccepted', {
           chatId,
           agentName: socket.userName,
@@ -147,7 +150,19 @@ export const initializeSocket = (server) => {
         // Notify other agents that chat is taken
         socket.to('agents').emit('chatTaken', { chatId });
 
-        socket.emit('chatAcceptedSuccess', { chatId });
+        // Confirm to the accepting agent
+        socket.emit('chatAcceptedSuccess', { 
+          chatId,
+          chat: {
+            _id: chat._id,
+            subject: chat.subject,
+            customer: chat.customer,
+            status: chat.status,
+            startedAt: chat.startedAt
+          }
+        });
+
+        console.log(`Agent ${socket.userName} accepted chat ${chatId}`);
 
       } catch (error) {
         console.error('Error accepting chat:', error);
