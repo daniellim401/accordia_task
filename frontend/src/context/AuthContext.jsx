@@ -49,11 +49,11 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (username, password) => {
     try {
       // 1. send credentials to server
       const response = await axios.post('/api/auth/login', { 
-        email: email.trim(), 
+        username: username.trim(), 
         password 
       });
       
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
       } else if (error.response?.status === 400) {
         return { 
           success: false, 
-          message: 'Invalid email or password' 
+          message: 'Invalid username or password' 
         };
       } else if (error.response?.status >= 500) {
         return { 
@@ -105,7 +105,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, email, password, role = 'agent') => {
+  const register = async (username, email, password, role = 'user') => {
     try {
       const response = await axios.post('/api/auth/register', { 
         username: username.trim(), 
