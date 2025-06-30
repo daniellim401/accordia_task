@@ -78,7 +78,7 @@ const Register = () => {
             Join Our Team
           </h2>
           <p className="text-emerald-200">
-            Create your Agent Tracker account
+            Create your Live Chat App account
           </p>
         </div>
 

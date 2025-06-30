@@ -61,7 +61,7 @@ const Login = () => {
             Welcome Back
           </h2>
           <p className="text-indigo-200">
-            Sign in to your Agent Tracker account
+            Sign in to your Live Chat App account
           </p>
         </div>
 

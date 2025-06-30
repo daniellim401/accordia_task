@@ -1,11 +1,7 @@
-import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = ({ children }) => {
   const { user, logout } = useAuth();
-  const location = useLocation();
-
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -14,7 +10,7 @@ const Navbar = ({ children }) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <h1 className="text-xl font-bold text-gray-900">Agent Tracker</h1>
+                <h1 className="text-xl font-bold text-gray-900">Live Chat App</h1>
               </div>
             </div>
             <div className="flex items-center">
