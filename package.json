@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "cd frontend && npm ci && npm run build && cd ../backend && npm ci",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
     "start": "cd backend && npm start"
   },
   "keywords": [],
