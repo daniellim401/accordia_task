@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon backend/server.js",
     "start": "NODE_ENV=production node backend/server.js", 
-    "build": "npm install --prefix backend && cd frontend && rm -rf node_modules && npm install && npm run build"
+    "build": "npm install --prefix backend && cd frontend && NODE_ENV=development npm install && NODE_ENV=production npm run build"
   },
   "keywords": [],
   "author": "",
