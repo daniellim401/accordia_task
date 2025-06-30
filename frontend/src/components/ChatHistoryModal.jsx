@@ -293,7 +293,6 @@ const ChatHistoryModal = ({ isOpen, onClose, userRole = 'user', onChatSelect }) 
                           {chat.status}
                         </span>
                         <span>{getTimeSince(chat.createdAt)}</span>
-                        <span className="mt-1">Messages: {chat.messageCount || 0}</span>
                       </div>
                     </div>
                     

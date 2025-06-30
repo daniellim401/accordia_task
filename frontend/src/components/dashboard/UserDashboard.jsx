@@ -237,9 +237,6 @@ const UserDashboard = ({ user }) => {
                         : getTimeSince(chat.createdAt)
                       }
                     </span>
-                    <span>
-                      {chat.messageCount || 0} messages
-                    </span>
                   </div>
                 </div>
               ))}

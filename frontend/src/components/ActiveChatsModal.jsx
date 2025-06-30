@@ -156,7 +156,6 @@ const ActiveChatsModal = ({ isOpen, onClose, userRole = 'user', onChatSelect }) 
                   
                   <div className="flex items-center justify-between text-xs text-gray-400">
                     <span>Started: {new Date(chat.createdAt).toLocaleString()}</span>
-                    <span>Messages: {chat.messageCount || 0}</span>
                   </div>
                 </div>
               ))}
