@@ -57,7 +57,14 @@ export const createChat = async (req, res) => {
 // Get user's chats
 export const getUserChats = async (req, res) => {
   try {
-    const chats = await Chat.find({ customer: req.user._id })
+    const { status } = req.query; 
+    const query = { customer: req.user._id }; 
+    
+    if (status) { 
+      query.status = status;
+    }
+
+    const chats = await Chat.find(query) 
       .populate('agent', 'username')
       .sort({ createdAt: -1 });
 
@@ -84,7 +91,14 @@ export const getAgentChats = async (req, res) => {
       });
     }
 
-    const chats = await Chat.find({ agent: req.user._id })
+    const { status } = req.query; 
+    const query = { agent: req.user._id }; 
+    
+    if (status) { 
+      query.status = status;
+    }
+
+    const chats = await Chat.find(query) 
       .populate('customer', 'username email')
       .sort({ createdAt: -1 });
 
