@@ -2,7 +2,7 @@ import Chat from '../models/chat.model.js';
 import Message from '../models/message.model.js';
 import { notifyNewChat } from '../socket.js';
 
-// Create new chat (for users)
+// User: Create new chat
 export const createChat = async (req, res) => {
   try {
     if (req.user.role !== 'user') {
@@ -54,7 +54,7 @@ export const createChat = async (req, res) => {
   }
 };
 
-// Get user's chats
+// User: Get user's chat with filtering enabled
 export const getUserChats = async (req, res) => {
   try {
     const { status } = req.query; 
@@ -81,7 +81,7 @@ export const getUserChats = async (req, res) => {
   }
 };
 
-// Get agent's chats
+// Agent: Get agent's chat with filtering enabled
 export const getAgentChats = async (req, res) => {
   try {
     if (req.user.role !== 'agent') {
@@ -115,7 +115,7 @@ export const getAgentChats = async (req, res) => {
   }
 };
 
-// Get pending chats (for agents)
+// Agent: Get pending chats (newly created chats by users)
 export const getPendingChats = async (req, res) => {
   try {
     if (req.user.role !== 'agent') {
@@ -142,7 +142,7 @@ export const getPendingChats = async (req, res) => {
   }
 };
 
-// Get chat messages
+// All: Check the messages of a chat
 export const getChatMessages = async (req, res) => {
   try {
     const { chatId } = req.params;
