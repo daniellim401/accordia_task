@@ -185,7 +185,7 @@ export const getChatMessages = async (req, res) => {
   }
 };
 
-// Get all chats (admin only)
+// Admin: Get All Chats
 export const getAllChats = async (req, res) => {
   try {
     if (req.user.role !== 'admin') {
@@ -223,6 +223,46 @@ export const getAllChats = async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching all chats:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
+
+// Admin: Delete chat
+export const deleteChat = async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin access required'
+      });
+    }
+
+    const { chatId } = req.params;
+
+    // Find the chat
+    const chat = await Chat.findById(chatId);
+    if (!chat) {
+      return res.status(404).json({
+        success: false,
+        message: 'Chat not found'
+      });
+    }
+
+    // Delete all messages associated with this chat
+    await Message.deleteMany({ chat: chatId });
+
+    // Delete the chat
+    await Chat.findByIdAndDelete(chatId);
+
+    res.json({
+      success: true,
+      message: 'Chat and all associated messages deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting chat:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'

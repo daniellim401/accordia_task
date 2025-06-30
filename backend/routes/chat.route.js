@@ -6,7 +6,8 @@ import {
   getAgentChats,
   getPendingChats,
   getChatMessages,
-  getAllChats
+  getAllChats,
+  deleteChat
 } from '../controllers/chat.controller.js';
 
 const router = express.Router();
@@ -24,5 +25,6 @@ router.get('/:chatId/messages', auth, getChatMessages);
 
 // Admin routes
 router.get('/all', requireAdmin, getAllChats);
+router.delete('/:chatId', requireAdmin, deleteChat);
 
 export default router;
