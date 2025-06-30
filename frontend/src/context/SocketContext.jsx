@@ -23,8 +23,13 @@ export const SocketProvider = ({ children }) => {
     if (user) {
       const token = localStorage.getItem('token');
       
+      // Socket URL - actual production URL or localhost in development
+      const socketURL = process.env.NODE_ENV === 'production' 
+        ? 'https://accordia-task.onrender.com' 
+        : 'http://localhost:5001';
+      
       // Create socket connection
-      const newSocket = io(import.meta.env.REACT_APP_SERVER_URL || 'http://localhost:5001', {
+      const newSocket = io(socketURL, {
         auth: { token }
       });
 
